@@ -39,6 +39,7 @@ function App() {
 
   const getEmployees = () => {
     axios.get('http://localhost:3001/employees').then((response) => {
+      console.log('emp', response);
       setEmployeeList(response.data);
     });
   };
