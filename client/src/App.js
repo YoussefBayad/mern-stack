@@ -39,7 +39,6 @@ function App() {
 
   const getEmployees = () => {
     axios.get('http://localhost:3001/employees').then((response) => {
-      console.log('emp', response);
       setEmployeeList(response.data);
     });
   };
@@ -48,6 +47,8 @@ function App() {
     axios
       .put('http://localhost:3001/update', { wage: newWage, id: id })
       .then((response) => {
+        console.log('response', response);
+
         setEmployeeList(
           employeeList.map((val) => {
             return val.id == id
@@ -132,12 +133,12 @@ function App() {
                   type='text'
                   placeholder='2000...'
                   onChange={(event) => {
-                    // setNewWage(event.target.value);
+                    setNewWage(event.target.value);
                   }}
                 />
                 <button
                   onClick={() => {
-                    // updateEmployeeWage(val.id);
+                    updateEmployeeWage(val.id);
                   }}>
                   {' '}
                   Update
@@ -145,7 +146,7 @@ function App() {
 
                 <button
                   onClick={() => {
-                    // deleteEmployee(val.id);
+                    deleteEmployee(val.id);
                   }}>
                   Delete
                 </button>
