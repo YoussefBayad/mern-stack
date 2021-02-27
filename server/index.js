@@ -34,6 +34,17 @@ app.post('/create', (req, res) => {
   );
 });
 
+app.get('/employees', (req, res) => {
+  console.log('hii');
+  db.query('SELECT * FROM employees', (err, data) => {
+    if (err) {
+      console.log('db err', err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
 app.listen(3001, () => {
   console.log('your server is running');
 });
