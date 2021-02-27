@@ -1,11 +1,16 @@
 const express = require('express');
 const app = express();
 const mysql = require('mysql');
+const cors = require('cors');
+
+app.use(cors());
+app.use(express.json());
 
 const db = mysql.createConnection({
-  user: 'root',
-  password: '',
+  user: 'jhely_bolivia',
   host: 'localhost',
+  password: 'jhely',
+  port: '3306',
   database: 'employSystem',
 });
 
@@ -20,8 +25,11 @@ app.post('/create', (req, res) => {
     'INSERT INTO employees (name,age,position,country,wage) VALUES (?,?,?,?,?)',
     [name, age, position, country, wage],
     (e, r) => {
-      if (e) console.log(e);
-      else res.send('values inserted');
+      if (e) {
+        console.log(e);
+      } else {
+        console.log('success');
+      }
     }
   );
 });
