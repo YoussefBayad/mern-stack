@@ -45,6 +45,31 @@ app.get('/employees', (req, res) => {
   });
 });
 
+app.put('/update', (req, res) => {
+  const wage = req.body.wage;
+  const id = req.body.id;
+  db.query(
+    'UPDATE employees SET  wage = ? where id = ?',
+    [wage, id],
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(data);
+      }
+    }
+  );
+});
+
+app.delete('/delete/:id', (req, res) => {
+  const id = req.params.id;
+
+  db.query('DELETE FROM employees WHERE id = ?', [id], (err, result) => {
+    err && console.log(err);
+    !err && res.send(result);
+  });
+});
+
 app.listen(3001, () => {
   console.log('your server is running');
 });
