@@ -1,5 +1,78 @@
-import 'app.css';
+import { useState } from 'react';
+import axios from 'axios';
+import './app.css';
+
 function App() {
+  const [name, setName] = useState('');
+  const [age, setAge] = useState(0);
+  const [country, setCountry] = useState('');
+  const [position, setPosition] = useState('');
+  const [wage, setWage] = useState(0);
+
+  const [newWage, setNewWage] = useState(0);
+
+  const [employeeList, setEmployeeList] = useState([]);
+
+  const addEmployee = () => {
+    axios
+      .post('http://localhost:3001/create', {
+        name,
+        age,
+        country,
+        position,
+        wage,
+      })
+      .then((r) => {
+        setEmployeeList([
+          ...employeeList,
+          {
+            name: name,
+            age: age,
+            country: country,
+            position: position,
+            wage: wage,
+          },
+        ]);
+      })
+      .catch((e) => console.log('e', e));
+  };
+
+  const getEmployees = () => {
+    axios.get('http://localhost:3001/employees').then((response) => {
+      setEmployeeList(response.data);
+    });
+  };
+
+  const updateEmployeeWage = (id) => {
+    axios
+      .put('http://localhost:3001/update', { wage: newWage, id: id })
+      .then((response) => {
+        setEmployeeList(
+          employeeList.map((val) => {
+            return val.id == id
+              ? {
+                  id: val.id,
+                  name: val.name,
+                  country: val.country,
+                  age: val.age,
+                  position: val.position,
+                  wage: newWage,
+                }
+              : val;
+          })
+        );
+      });
+  };
+
+  const deleteEmployee = (id) => {
+    axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+      setEmployeeList(
+        employeeList.filter((val) => {
+          return val.id != id;
+        })
+      );
+    });
+  };
   return (
     <div className='App'>
       <div className='information'>
